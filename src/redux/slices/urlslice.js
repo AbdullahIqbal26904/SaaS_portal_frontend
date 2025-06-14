@@ -5,30 +5,48 @@ const initialState = {
     openSlider: false,
     sliderData: "",
     openleftbar: true,
+    activeSection: 'dashboard', // New field for tracking active section in admin dashboard
+    modalOpen: false,
+    modalContent: null,
 };
 
-const urlslice = createSlice({
-    name: 'portfolio',
+const uiSlice = createSlice({
+    name: 'ui',
     initialState,
     reducers: {
         setopenSlider: (state, action) => {
             state.openSlider = action.payload;
-            console.log("openSlider value: ", state.openSlider);
         },
         setshowloader: (state, action) => {
             state.loading = action.payload;
-            console.log("loading value: ", state.loading);
         },
         setsliderData: (state, action) => {
             state.sliderData = action.payload;
-            console.log("sliderData value: ", state.sliderData);
         },
         setopenleftbar: (state, action) => {
             state.openleftbar = action.payload;
-            console.log("openSlider value: ", state.openleftbar);
+        },
+        setActiveSection: (state, action) => {
+            state.activeSection = action.payload;
+        },
+        openModal: (state, action) => {
+            state.modalOpen = true;
+            state.modalContent = action.payload;
+        },
+        closeModal: (state) => {
+            state.modalOpen = false;
+            state.modalContent = null;
         },
     }
 })
 
-export const { setopenSlider, setshowloader, setsliderData, setopenleftbar } = urlslice.actions;
-export default urlslice.reducer;
+export const { 
+    setopenSlider, 
+    setshowloader, 
+    setsliderData, 
+    setopenleftbar,
+    setActiveSection,
+    openModal,
+    closeModal
+} = uiSlice.actions;
+export default uiSlice.reducer;

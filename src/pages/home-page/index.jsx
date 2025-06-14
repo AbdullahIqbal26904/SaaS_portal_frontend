@@ -3,10 +3,9 @@ import Homecomponent from "@/components/Hero/Homecomponent";
 import Navbar from "../../components/Navbarcomponent/Navbar";
 import { useSelector } from "react-redux";
 import Slider from "@/components/Slider/Slider";
-import Main from "@/components/Main/Main";
 import Footer from "@/components/footer/Footer";
 const Home = () => {
-  const { loading, openSlider } = useSelector((state) => state.allCart);
+  const { loading, openSlider } = useSelector((state) => state.ui);
 
   useEffect(() => {
     if (openSlider) {
@@ -19,7 +18,6 @@ const Home = () => {
   return (
     <div className="relative">
       <Navbar />
-      <Main />
       <Slider openSlider={openSlider} />
 
       {/* Blur overlay when openSlider is true */}

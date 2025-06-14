@@ -3,12 +3,12 @@ import { useSelector,useDispatch } from "react-redux";
 import { setopenSlider,setshowloader,setsliderData } from "@/redux/slices/urlslice";
 import { useRouter } from "next/router";
 function Navbarcomp() {
-    const {loading,openSlider,sliderData} = useSelector(state => state.allCart);
+    const {loading,openSlider,sliderData} = useSelector(state => state.ui);
     const dispatch = useDispatch();
     const router = useRouter();
     const buttons = [
         {
-            name: "My URLs",
+            name: "Dashboard",
             link: "/",
         },
         {
