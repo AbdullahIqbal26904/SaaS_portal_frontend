@@ -17,12 +17,15 @@ function Slider() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  // Effect to check for root admin after authentication
+  // Effect to check for root admin or reseller admin after authentication
   useEffect(() => {
     if (isAuthenticated && user) {
-      if (user.is_root_admin) {
+      if (user.is_root_admin ) {
         // Redirect to root admin dashboard
         router.push('/rootAdminDashboard');
+      } else if (user.is_reseller_admin) {
+        // Redirect to reseller admin dashboard
+        router.push('/resellerAdminDashboard');
       }
     }
   }, [isAuthenticated, user, router]);
