@@ -50,6 +50,18 @@ export const addResellerAdmin = createAsyncThunk(
   }
 );
 
+export const removeResellerAdmin = createAsyncThunk(
+  'reseller/removeResellerAdmin',
+  async ({ resellerId, email }, { rejectWithValue }) => {
+    try {
+      const response = await resellerAPI.removeResellerAdmin(resellerId, email);
+      return { resellerId, email };
+    } catch (error) {
+      return rejectWithValue(error.response?.data || 'Error removing reseller admin');
+    }
+  }
+);
+
 export const fetchResellerCustomers = createAsyncThunk(
   'reseller/fetchResellerCustomers',
   async (resellerId, { rejectWithValue }) => {
@@ -170,6 +182,27 @@ const resellerSlice = createSlice({
         }
       })
       .addCase(addResellerAdmin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+      // Remove reseller admin
+      .addCase(removeResellerAdmin.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(removeResellerAdmin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        if (state.currentReseller && state.currentReseller.reseller_id === action.payload.resellerId) {
+          if (state.currentReseller.admins) {
+            state.currentReseller.admins = state.currentReseller.admins.filter(
+              admin => admin.email !== action.payload.email
+            );
+          }
+        }
+      })
+      .addCase(removeResellerAdmin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

@@ -42,7 +42,7 @@ function ResellerLeftbar() {
           <ul className="space-y-2">
             {/* Dashboard */}
             <li>
-              <Link href="/resellerAdminDashboard" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+              <Link href="/resellerAdmindashboard" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                 <RiDashboardLine className="text-xl" />
                 {openleftbar && <span className="ml-2">Dashboard</span>}
               </Link>
@@ -50,7 +50,7 @@ function ResellerLeftbar() {
 
             {/* Customers */}
             <li>
-              <Link href="/resellerAdminDashboard/customers" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+              <Link href="/resellerAdmindashboard/customers" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                 <FiUsers className="text-xl" />
                 {openleftbar && <span className="ml-2">Customers</span>}
               </Link>
@@ -58,7 +58,7 @@ function ResellerLeftbar() {
 
             {/* Subscriptions */}
             <li>
-              <Link href="/resellerAdminDashboard/subscriptions" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+              <Link href="/resellerAdmindashboard/subscriptions" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                 <FiPackage className="text-xl" />
                 {openleftbar && <span className="ml-2">Subscriptions</span>}
               </Link>
@@ -66,7 +66,7 @@ function ResellerLeftbar() {
 
             {/* Admins */}
             <li>
-              <Link href="/resellerAdminDashboard/admins" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+              <Link href="/resellerAdmindashboard/admins" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                 <RiShieldUserLine className="text-xl" />
                 {openleftbar && <span className="ml-2">Admins</span>}
               </Link>
@@ -74,7 +74,7 @@ function ResellerLeftbar() {
 
             {/* Profile */}
             <li>
-              <Link href="/resellerAdminDashboard/profile" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+              <Link href="/resellerAdmindashboard/profile" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                 <RiUserLine className="text-xl" />
                 {openleftbar && <span className="ml-2">Profile</span>}
               </Link>
@@ -82,7 +82,7 @@ function ResellerLeftbar() {
 
             {/* Settings */}
             <li>
-              <Link href="/resellerAdminDashboard/settings" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+              <Link href="/resellerAdmindashboard/settings" className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                 <RiSettings4Line className="text-xl" />
                 {openleftbar && <span className="ml-2">Settings</span>}
               </Link>

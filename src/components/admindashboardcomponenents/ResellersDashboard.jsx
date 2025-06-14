@@ -7,6 +7,7 @@ import {
   fetchResellerDetails, 
   createReseller, 
   addResellerAdmin,
+  removeResellerAdmin,
   clearResellerErrors
 } from '@/redux/slices/resellerSlice';
 
@@ -81,6 +82,18 @@ export default function ResellersDashboard() {
         resellerId: selectedResellerId,
         adminData: newAdmin
       }));
+    }
+  };
+
+  // Handle removing an admin from a reseller
+  const handleRemoveAdmin = (email) => {
+    if (selectedResellerId) {
+      if (confirm('Are you sure you want to remove this admin?')) {
+        dispatch(removeResellerAdmin({
+          resellerId: selectedResellerId,
+          email: email
+        }));
+      }
     }
   };
 
@@ -322,8 +335,14 @@ export default function ResellersDashboard() {
                             <p className="font-medium">{admin.full_name}</p>
                             <p className="text-sm text-gray-500">{admin.email}</p>
                           </div>
-                          <div>
+                          <div className="flex items-center gap-2">
                             <FaUserCheck className="text-green-500" title="Active Admin" />
+                            <button 
+                              onClick={() => handleRemoveAdmin(admin.email)}
+                              className="text-red-500 hover:text-red-700"
+                              title="Remove Admin">
+                              <FaTrash />
+                            </button>
                           </div>
                         </div>
                       </li>
