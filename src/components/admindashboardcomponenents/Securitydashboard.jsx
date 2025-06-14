@@ -2,7 +2,7 @@ import { FaLock, FaGoogle, FaFacebook, FaTwitter } from "react-icons/fa";
 
 function SecurityDashboard() {
   return (
-    <div className="absolute left-[257px] top-20 w-[82%] h-[85%] bg-gray-100 flex flex-col items-center py-10 overflow-hidden">
+    <div className="w-full h-full bg-gray-100 flex flex-col items-center py-10 overflow-hidden">
       {/* Title */}
       <div className="w-[80%] mb-6">
         <h2 className="text-gray-500 text-lg font-semibold">Security</h2>

@@ -11,6 +11,7 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem('accessToken', response.tokens.access);
       localStorage.setItem('refreshToken', response.tokens.refresh);
       return response;
+      
     } catch (error) {
       return rejectWithValue(error);
     }

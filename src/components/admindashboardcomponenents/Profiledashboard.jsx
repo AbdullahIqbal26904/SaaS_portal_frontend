@@ -5,7 +5,7 @@ function ProfileUpdate() {
   const [email, setEmail] = useState("abdullah.iqbal1505@gmail.com");
 
   return (
-    <div className="absolute left-[257px] top-20 w-[82%] h-[85%] bg-gray-100 flex flex-col items-center py-10">
+    <div className="w-full h-full bg-gray-100 flex flex-col items-center py-10">
       {/* Heading Section */}
       <div className="w-[60%]">
         <h2 className="text-gray-500 text-lg font-semibold">Profile Management</h2>

@@ -21,7 +21,7 @@ export default function Topbar() {
 
   const handleLogout = () => {
     dispatch(logout());
-    router.push('/login');
+    router.push('/home-page');
   };
 
   function closeleftbar() {
@@ -39,7 +39,7 @@ export default function Topbar() {
         className="absolute top-10 left-[-20px] rounded-full z-50 bg-blue-100 text-black w-10 h-10 flex items-center justify-center text-lg font-bold
                hover:bg-blue-200 hover:scale-110 transition-all duration-300 shadow-md"
       >
-        {openleftbar ? "◄" : "►"}
+        {openleftbar ? "<" : ">"}
       </button>
 
       <input

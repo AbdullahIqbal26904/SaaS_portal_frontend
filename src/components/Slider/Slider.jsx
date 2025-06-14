@@ -3,18 +3,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { setopenSlider, setshowloader, setsliderData } from "@/redux/slices/urlslice";
 import { loginUser, registerUser, clearError } from "@/redux/slices/authSlice";
 import { SocialIcon } from 'react-social-icons';
+import { useRouter } from "next/router";
 
 function Slider() {
   const { openSlider, loading, sliderData } = useSelector(state => state.ui);
-  const { loading: authLoading, error: authError, isAuthenticated } = useSelector(state => state.auth);
+  const { loading: authLoading, error: authError, isAuthenticated, user } = useSelector(state => state.auth);
   const [animate, setAnimate] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [loginError, setLoginError] = useState("");
-  
+  const router = useRouter();
   const dispatch = useDispatch();
+
+  // Effect to check for root admin after authentication
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.is_root_admin) {
+        // Redirect to root admin dashboard
+        router.push('/rootAdminDashboard');
+      }
+    }
+  }, [isAuthenticated, user, router]);
 
   function handleClick(e) {
     e.preventDefault();
@@ -91,6 +102,9 @@ function Slider() {
     
     // Dispatch login action
     dispatch(loginUser({ email, password }));
+
+    // router.push('/rootAdminDashboard');
+    
   };
 
   // Handle signup form submission

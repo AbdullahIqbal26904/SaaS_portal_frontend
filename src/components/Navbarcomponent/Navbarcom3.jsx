@@ -3,7 +3,7 @@
 function Navbarcom3() {
   return (
     <div className="absolute left-12 top-4">
-        <img src="/images/logo.svg" alt="" />
+        <p className="font-bungee text-[#EEE] font-medium text-4xl">SaaS Portal</p>
     </div>
   )
 }
