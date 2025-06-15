@@ -15,7 +15,7 @@ function ResellerContent() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { user, loading: authLoading } = useSelector(state => state.auth);
-  const { currentReseller, loading: resellerLoading } = useSelector(state => state.reseller);
+  const { resellers, currentReseller, loading: resellerLoading } = useSelector(state => state.reseller);
   
   const [activeTab, setActiveTab] = useState('overview');
   
@@ -39,23 +39,36 @@ function ResellerContent() {
       setActiveTab('settings');
     }
     
-    // Fetch reseller data if user is loaded
+    // Fetch all resellers when the component mounts or when user changes
     if (user && user.is_reseller_admin) {
       dispatch(fetchResellers());
     }
-    
   }, [router.pathname, user, dispatch]);
   
-  // If no reseller is selected yet, select the first one from the list
+  // If no reseller is selected yet, find the appropriate reseller for this admin
   useEffect(() => {
-    if (user?.is_reseller_admin && !currentReseller) {
-      // Find the reseller ID associated with this admin
-      const resellerId = user.reseller_id; // Assuming this field exists
-      if (resellerId) {
-        dispatch(fetchResellerDetails(resellerId));
+    if (user?.is_reseller_admin && !currentReseller && resellers && resellers.length > 0) {
+      // Find the reseller that this admin belongs to
+      // First check if there's a direct reseller_id in the user object
+      if (user.reseller_id) {
+        dispatch(fetchResellerDetails(user.reseller_id));
+      } else {
+        // If not, look through resellers to find one where this user is an admin
+        const userEmail = user.email;
+        const userReseller = resellers.find(reseller => 
+          reseller.admins && 
+          reseller.admins.some(admin => admin.email === userEmail)
+        );
+        
+        if (userReseller) {
+          dispatch(fetchResellerDetails(userReseller.reseller_id));
+        } else if (resellers.length === 1) {
+          // If there's only one reseller, select it
+          dispatch(fetchResellerDetails(resellers[0].reseller_id));
+        }
       }
     }
-  }, [user, currentReseller, dispatch]);
+  }, [user, currentReseller, resellers, dispatch]);
   
   // Loading state
   if (authLoading || resellerLoading) {

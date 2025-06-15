@@ -44,7 +44,7 @@ function Leftbar() {
         <div className={`fixed flex items-center justify-center flex-col h-full bg-white border-r-2 ${openleftbar ? 'w-1/6' : 'w-16'}`}>
             {/* Logo */}
             <div className="absolute left-3 top-3 h-12 flex items-center">
-                <img className={`${openleftbar ? 'h-10 w-10 mr-2' : "h-8 w-8"}`} src="/images/logo.svg" alt="Logo" />
+                <img className={`${openleftbar ? 'h-10 w-10 mr-2' : "h-8 w-8"}`} src="/images/5074297.png" alt="Logo" />
                 {openleftbar && <span className="font-bold text-lg">SaaS Portal</span>}
             </div>
             

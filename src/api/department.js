@@ -32,6 +32,26 @@ export const departmentAPI = {
     }
   },
 
+  // Update department by ID
+  updateDepartment: async (departmentId, departmentData) => {
+    try {
+      const response = await apiClient.put(`/departments/departments/${departmentId}/`, departmentData);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { detail: 'An error occurred updating department' };
+    }
+  },
+
+  // Delete department by ID
+  deleteDepartment: async (departmentId) => {
+    try {
+      const response = await apiClient.delete(`/departments/departments/${departmentId}/`);
+      return response.status === 204 ? { success: true } : response.data;
+    } catch (error) {
+      throw error.response?.data || { detail: 'An error occurred deleting department' };
+    }
+  },
+
   // Add department admin
   addDepartmentAdmin: async (departmentId, adminData) => {
     try {

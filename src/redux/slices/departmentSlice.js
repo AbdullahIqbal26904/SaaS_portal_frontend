@@ -38,6 +38,30 @@ export const createNewDepartment = createAsyncThunk(
   }
 );
 
+export const updateDepartment = createAsyncThunk(
+  'department/updateDepartment',
+  async ({ departmentId, departmentData }, { rejectWithValue }) => {
+    try {
+      const response = await departmentAPI.updateDepartment(departmentId, departmentData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteDepartment = createAsyncThunk(
+  'department/deleteDepartment',
+  async (departmentId, { rejectWithValue }) => {
+    try {
+      await departmentAPI.deleteDepartment(departmentId);
+      return departmentId; // Return the ID for state updates
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const addDepartmentAdmin = createAsyncThunk(
   'department/addDepartmentAdmin',
   async ({ departmentId, adminData }, { rejectWithValue }) => {
@@ -128,6 +152,52 @@ const departmentSlice = createSlice({
       .addCase(createNewDepartment.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || { detail: 'Failed to create department' };
+      })
+      
+      // Update department cases
+      .addCase(updateDepartment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(updateDepartment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        // Update the department in the list
+        state.departments = state.departments.map(department =>
+          department.department_id === action.payload.department_id ? action.payload : department
+        );
+        // Update current department if it's the one being updated
+        if (state.currentDepartment && state.currentDepartment.department_id === action.payload.department_id) {
+          state.currentDepartment = action.payload;
+        }
+      })
+      .addCase(updateDepartment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || { detail: 'Failed to update department' };
+      })
+      
+      // Delete department cases
+      .addCase(deleteDepartment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(deleteDepartment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        // Remove the department from the list
+        state.departments = state.departments.filter(
+          department => department.department_id !== action.payload
+        );
+        // Clear current department if it's the one being deleted
+        if (state.currentDepartment && state.currentDepartment.department_id === action.payload) {
+          state.currentDepartment = null;
+        }
+      })
+      .addCase(deleteDepartment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || { detail: 'Failed to delete department' };
       })
       
       // Add admin cases

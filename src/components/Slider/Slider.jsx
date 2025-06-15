@@ -25,7 +25,7 @@ function Slider() {
         router.push('/rootAdminDashboard');
       } else if (user.is_reseller_admin) {
         // Redirect to reseller admin dashboard
-        router.push('/resellerAdminDashboard');
+        router.push('/resellerAdmindashboard');
       }
     }
   }, [isAuthenticated, user, router]);
