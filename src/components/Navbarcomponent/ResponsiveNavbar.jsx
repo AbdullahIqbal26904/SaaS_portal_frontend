@@ -31,13 +31,13 @@ function ResponsiveNavbar() {
     }
     if(item.name === "Sign Up" || item.name === "Sign In") {
       // Check if already on home page
-      if (router.pathname !== "/") {
+      if (router.pathname !== "/" && router.pathname !== "/home-page") {
         // Set up data for which slider to open after redirect
         dispatch(setsliderData(item.name));
         
         // Redirect to home page with a query parameter indicating to open slider
         router.push({
-          pathname: '/',
+          pathname: '/home-page',
           query: { openSlider: 'true', sliderType: item.name }
         });
       } else {

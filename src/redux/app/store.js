@@ -16,4 +16,13 @@ const store = configureStore({
     },
 });
 
+// Initialize auth state from cookies in client side
+if (typeof window !== 'undefined') {
+    // Import dynamically to avoid SSR issues
+    import('../middleware/authMiddleware').then(module => {
+        const { initializeAuth } = module;
+        initializeAuth(store);
+    });
+}
+
 export default store;

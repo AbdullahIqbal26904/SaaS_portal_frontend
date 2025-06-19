@@ -54,7 +54,7 @@ function Navbarcomp() {
                 
                 // Redirect to home page with a query parameter indicating to open slider
                 router.push({
-                    pathname: '/',
+                    pathname: '/home-page',
                     query: { openSlider: 'true', sliderType: item.name }
                 });
             } else {

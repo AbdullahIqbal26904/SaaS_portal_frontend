@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authAPI from '@/api/auth';
+import { setTokens } from '@/utils/tokenPersistence';
 
 // Async thunks for authentication
 export const loginUser = createAsyncThunk(
@@ -7,11 +8,8 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await authAPI.login(email, password);
-      // Store tokens in localStorage (only in browser)
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('accessToken', response.tokens.access);
-        localStorage.setItem('refreshToken', response.tokens.refresh);
-      }
+      // Store tokens using tokenManager (handles both cookies and localStorage)
+      setTokens(response.tokens.access, response.tokens.refresh);
       return response;
       
     } catch (error) {
@@ -25,10 +23,9 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await authAPI.register(userData);
-      // Store tokens in localStorage (only in browser)
-      if (response.tokens && typeof window !== 'undefined') {
-        localStorage.setItem('accessToken', response.tokens.access);
-        localStorage.setItem('refreshToken', response.tokens.refresh);
+      // Store tokens using tokenManager (handles both cookies and localStorage)
+      if (response.tokens) {
+        setTokens(response.tokens.access, response.tokens.refresh);
       }
       return response;
     } catch (error) {
@@ -56,6 +53,10 @@ const initialState = {
   isAuthenticated: false,
   loading: false,
   error: null,
+  tokens: {
+    access: null,
+    refresh: null
+  }
 };
 
 // Auth slice
@@ -64,20 +65,22 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      // Clear tokens from localStorage (only in browser)
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-      }
+      // Clear tokens using tokenPersistence (handles cookies only)
+      const { clearTokens } = require('@/utils/tokenPersistence');
+      clearTokens();
       
       state.user = null;
       state.adminDepartments = [];
       state.isAuthenticated = false;
       state.error = null;
+      state.tokens = { access: null, refresh: null };
     },
     clearError: (state) => {
       state.error = null;
     },
+    setAuthTokens: (state, action) => {
+      state.tokens = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -91,6 +94,10 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.adminDepartments = action.payload.admin_departments || [];
+        // Store tokens in Redux state
+        if (action.payload.tokens) {
+          state.tokens = action.payload.tokens;
+        }
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -107,6 +114,10 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.adminDepartments = action.payload.admin_departments || [];
+        // Store tokens in Redux state
+        if (action.payload.tokens) {
+          state.tokens = action.payload.tokens;
+        }
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -130,7 +141,7 @@ const authSlice = createSlice({
 });
 
 // Export actions
-export const { logout, clearError } = authSlice.actions;
+export const { logout, clearError, setAuthTokens } = authSlice.actions;
 
 // Export reducer
 export default authSlice.reducer;

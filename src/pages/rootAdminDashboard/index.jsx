@@ -13,10 +13,11 @@ function RootAdminDashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is authenticated and fetch profile if needed
-    const token = localStorage.getItem('accessToken');
+    // Import at the top level is best, but for minimal changes we're doing it here
+    const { isAuthenticated } = require('@/utils/tokenPersistence');
     
-    if (!token) {
+    // Check if user is authenticated and fetch profile if needed
+    if (!isAuthenticated()) {
       router.push('/');
       return;
     }

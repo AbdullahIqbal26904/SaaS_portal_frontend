@@ -12,9 +12,11 @@ export default function Topbar() {
   const router = useRouter();
 
   useEffect(() => {
+    // Import at the top level is best, but for minimal changes we're doing it here
+    const { isAuthenticated } = require('@/utils/tokenManager');
+    
     // If we have a token but no user data, fetch the profile
-    const token = localStorage.getItem('accessToken');
-    if (token && !user) {
+    if (isAuthenticated() && !user) {
       dispatch(fetchUserProfile());
     }
   }, [dispatch, user]);
