@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setopenSlider, setshowloader, setsliderData } from "@/redux/slices/urlslice";
 import { loginUser, registerUser, clearError } from "@/redux/slices/authSlice";
-import { SocialIcon } from 'react-social-icons';
+// Import individual icons instead of using react-social-icons package
+// which bundles its own version of React
 import { useRouter } from "next/router";
 
 function Slider() {
@@ -16,6 +17,9 @@ function Slider() {
   const [loginError, setLoginError] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
+  
+  // Add a mount ref to prevent state updates after unmount
+  const isMounted = useRef(true);
 
   // Effect to check for root admin or reseller admin after authentication
   useEffect(() => {
@@ -45,16 +49,29 @@ function Slider() {
     dispatch(clearError());
   }
 
+  // Set up cleanup on unmount
   useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted.current) return;
+    
     if (openSlider) {
-      setTimeout(() => setAnimate(true), 10); // Small delay for animation
+      setTimeout(() => {
+        if (isMounted.current) setAnimate(true);
+      }, 10); // Small delay for animation
     } else {
-      setAnimate(false);
+      if (isMounted.current) setAnimate(false);
     }
   }, [openSlider]);
 
   // Effect to close slider after successful authentication
   useEffect(() => {
+    if (!isMounted.current) return;
+    
     if (isAuthenticated && openSlider) {
       dispatch(setopenSlider(false));
       resetForm();
@@ -63,6 +80,8 @@ function Slider() {
 
   // Effect to handle auth errors
   useEffect(() => {
+    if (!isMounted.current) return;
+    
     if (authError) {
       setLoginError(
         authError.detail || 
