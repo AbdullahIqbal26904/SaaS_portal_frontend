@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { RiMenuLine, RiMenuFoldLine, RiNotification3Line, RiLogoutBoxRLine } from 'react-icons/ri';
 import { FiSearch } from 'react-icons/fi';
+import { logout } from '@/redux/slices/authSlice';
 
 // This assumes you have these actions in your urlslice
 // If not, you'll need to add them
@@ -21,9 +22,8 @@ function ResellerTopbar() {
   };
 
   const handleSignOut = () => {
-    // Clear tokens
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    // Use the Redux logout action instead of directly accessing localStorage
+    dispatch(logout());
     
     // Redirect to home page
     router.push('/');

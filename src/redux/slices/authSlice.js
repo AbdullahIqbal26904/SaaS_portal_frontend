@@ -7,9 +7,11 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await authAPI.login(email, password);
-      // Store tokens in localStorage
-      localStorage.setItem('accessToken', response.tokens.access);
-      localStorage.setItem('refreshToken', response.tokens.refresh);
+      // Store tokens in localStorage (only in browser)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('accessToken', response.tokens.access);
+        localStorage.setItem('refreshToken', response.tokens.refresh);
+      }
       return response;
       
     } catch (error) {
@@ -23,8 +25,8 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await authAPI.register(userData);
-      // Store tokens in localStorage
-      if (response.tokens) {
+      // Store tokens in localStorage (only in browser)
+      if (response.tokens && typeof window !== 'undefined') {
         localStorage.setItem('accessToken', response.tokens.access);
         localStorage.setItem('refreshToken', response.tokens.refresh);
       }
@@ -62,9 +64,11 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      // Clear tokens from localStorage
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      // Clear tokens from localStorage (only in browser)
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+      }
       
       state.user = null;
       state.adminDepartments = [];
