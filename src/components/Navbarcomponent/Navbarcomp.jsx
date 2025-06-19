@@ -47,6 +47,11 @@ function Navbarcomp() {
             return;
         }
         if(item.name === "Sign Up" || item.name === "Sign In"){
+            // Redirect to the dedicated login page instead of opening slider
+            router.push('/login');
+            return;
+            
+            /* Original slider-based login functionality (commented out)
             // Check if already on home page
             if (router.pathname !== "/" && router.pathname !== "/home-page") {
                 // Set up data for which slider to open after redirect
@@ -62,6 +67,7 @@ function Navbarcomp() {
                 dispatch(setopenSlider(true));
                 dispatch(setsliderData(item.name));
             }
+            */
             return;
         }
         dispatch(setopenSlider(true));

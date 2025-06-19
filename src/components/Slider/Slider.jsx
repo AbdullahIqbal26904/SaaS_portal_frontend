@@ -155,6 +155,21 @@ function Slider() {
             <CrossButton />
           </div>
           <hr className="border-t border-gray-300 w-full mt-5" />
+          {/* Sign up form has been moved to a dedicated page */}
+          <div className="w-full h-full mt-5 flex flex-col items-center justify-start">
+            <p className="font-bungee text-[#087da8] font-medium text-3xl">SaaS Portal</p>
+            <p className="text-gray-600 mb-8">Welcome to SaaS Portal</p>
+            <p className="text-gray-700">Please use our new login page for registration.</p>
+            <button 
+              onClick={() => router.push('/login')}
+              className="w-[80%] mt-8 p-2 bg-[#087da8] text-white font-semibold rounded-md hover:bg-[#065c81] transition"
+            >
+              Go to Login Page
+            </button>
+          </div>
+
+          {/*
+          Original signup form - commented out but preserved
           <form onSubmit={handleSignup} className="w-full h-full mt-5 flex flex-col items-center justify-start">
             <p className="font-bungee text-[#087da8] font-medium text-3xl">SaaS Portal</p>
             <p className="text-gray-600">Welcome to SaaS Portal</p>
@@ -182,6 +197,7 @@ function Slider() {
             <p className="mt-4 text-s text-gray-600">Already a user? <span onClick={signinkholo} className="text-[#087da8] font-semibold cursor-pointer">Log In</span></p>
             <p className="mt-6 text-gray-600 text-sm">Or register via:</p>
           </form>
+          */}
         </div>
       );
 
@@ -192,6 +208,21 @@ function Slider() {
             <CrossButton />
           </div>
           <hr className="border-t border-gray-300 w-full mt-5" />
+          {/* Login form has been moved to a dedicated page */}
+          <div className="w-full h-full mt-5 flex flex-col items-center justify-start">
+            <p className="font-bungee text-[#087da8] font-medium text-3xl">SaaS Portal</p>
+            <p className="text-gray-600 mb-8">Welcome to SaaS Portal</p>
+            <p className="text-gray-700">Please use our new login page for authentication.</p>
+            <button 
+              onClick={() => router.push('/login')}
+              className="w-[80%] mt-8 p-2 bg-[#087da8] text-white font-semibold rounded-md hover:bg-[#065c81] transition"
+            >
+              Go to Login Page
+            </button>
+          </div>
+          
+          {/* 
+          Original login form - commented out but preserved
           <form onSubmit={handleLogin} className="w-full h-full mt-5 flex flex-col items-center justify-start">
             <p className="font-bungee text-[#087da8] font-medium text-3xl">SaaS Portal</p>
             <p className="text-gray-600">Welcome to SaaS Portal</p>
@@ -226,11 +257,9 @@ function Slider() {
             <p className="mt-4 text-s text-gray-600">Don't have an account? <span onClick={signupkholo} className="text-[#087da8] font-semibold cursor-pointer">Sign Up</span></p>
             <p className="mt-6 text-gray-600 text-sm">Or login via:</p>
           </form>
+          */}
         </div>
       );
-
-    default:
-      return null;
   }
 }
 

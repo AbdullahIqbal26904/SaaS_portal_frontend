@@ -6,8 +6,12 @@ export default function IndexPage() {
   const { openSlider, sliderType } = router.query;
 
   useEffect(() => {
-    // Forward any query parameters to the home-page route
-    if (openSlider && sliderType) {
+    // If login redirect requested, go to the login page
+    if (openSlider && (sliderType === "Sign In" || sliderType === "Sign Up")) {
+      router.push('/login');
+    }
+    // Otherwise, forward any query parameters to the home-page route
+    else if (openSlider && sliderType) {
       router.push({
         pathname: '/home-page',
         query: { openSlider, sliderType }
