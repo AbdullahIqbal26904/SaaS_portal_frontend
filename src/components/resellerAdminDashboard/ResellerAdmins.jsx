@@ -9,6 +9,7 @@ function ResellerAdmins() {
   
   // Local state
   const [showAddModal, setShowAddModal] = useState(false);
+  const [adminAdded, setAdminAdded] = useState(false);
   const [newAdmin, setNewAdmin] = useState({
     email: '',
     full_name: '',
@@ -20,8 +21,9 @@ function ResellerAdmins() {
     if (success && showAddModal) {
       setShowAddModal(false);
       setNewAdmin({ email: '', full_name: '', password: '' });
+      setAdminAdded(true);
     }
-  }, [success]);
+  }, [success, showAddModal]);
   
   // Handle create new admin
   const handleAddAdmin = (e) => {

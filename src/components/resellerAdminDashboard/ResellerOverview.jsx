@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchResellerCustomers } from '@/redux/slices/resellerSlice';
 import { RiUserAddLine, RiBuilding2Line, RiTeamLine, RiBarChartBoxLine } from 'react-icons/ri';
@@ -7,12 +7,15 @@ import { FiPackage, FiShoppingBag } from 'react-icons/fi';
 function ResellerOverview() {
   const dispatch = useDispatch();
   const { currentReseller, resellerCustomers, loading } = useSelector(state => state.reseller);
+  const [customersFetched, setCustomersFetched] = useState(false);
   
   useEffect(() => {
-    if (currentReseller) {
+    if (currentReseller && !customersFetched && 
+        (!resellerCustomers[currentReseller.reseller_id] || resellerCustomers[currentReseller.reseller_id].length === 0)) {
       dispatch(fetchResellerCustomers(currentReseller.reseller_id));
+      setCustomersFetched(true);
     }
-  }, [currentReseller, dispatch]);
+  }, [currentReseller, dispatch, customersFetched, resellerCustomers]);
   
   // If no reseller data yet
   if (!currentReseller) {

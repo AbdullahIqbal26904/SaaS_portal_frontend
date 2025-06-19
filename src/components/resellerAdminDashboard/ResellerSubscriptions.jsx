@@ -13,6 +13,7 @@ function ResellerSubscriptions() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('all'); // all, active, expired
   const [subscriptions, setSubscriptions] = useState([]);
+  const [dataFetched, setDataFetched] = useState(false);
   const [newSubscription, setNewSubscription] = useState({
     department: '',
     service_package: ''
@@ -20,8 +21,10 @@ function ResellerSubscriptions() {
   
   // Load customers when component mounts or reseller changes
   useEffect(() => {
-    if (currentReseller) {
+    if (currentReseller && currentReseller.reseller_id && !dataFetched && 
+        (!resellerCustomers[currentReseller.reseller_id] || resellerCustomers[currentReseller.reseller_id].length === 0)) {
       dispatch(fetchResellerCustomers(currentReseller.reseller_id));
+      setDataFetched(true);
       
       // For demo purposes, we'll create some sample subscriptions
       // In a real app, these would come from an API call
@@ -64,7 +67,7 @@ function ResellerSubscriptions() {
       
       setSubscriptions(sampleSubscriptions);
     }
-  }, [currentReseller, dispatch]);
+  }, [currentReseller, dispatch, dataFetched, resellerCustomers]);
   
   // Reset form after successful subscription creation
   useEffect(() => {

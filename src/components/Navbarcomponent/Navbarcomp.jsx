@@ -8,20 +8,16 @@ function Navbarcomp() {
     const router = useRouter();
     const buttons = [
         {
+            name: "Home",
+            link: "/",
+        },
+        {
             name: "Plans",
             link: "/",
         },
         {
             name: "Asterisk IVR",
             link: "/asterik",
-        },
-        {
-            name: "Blog",
-            link: "/",
-        },
-        {
-            name: "Features",
-            link: "/",
         },
         {
             name: "Sign Up",
@@ -35,6 +31,10 @@ function Navbarcomp() {
     function handleClick(e, item) {
         e.preventDefault();
         // console.log(loading,openSlider);
+        if(item.name === "Home"){
+            router.push('/');
+            return;
+        }
         if(item.name === "Plans"){
             router.push('/plans');
             return;

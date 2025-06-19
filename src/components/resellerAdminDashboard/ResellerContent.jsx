@@ -18,6 +18,8 @@ function ResellerContent() {
   const { resellers, currentReseller, loading: resellerLoading } = useSelector(state => state.reseller);
   
   const [activeTab, setActiveTab] = useState('overview');
+  const [resellersFetched, setResellersFetched] = useState(false);
+  const [resellerDetailsFetched, setResellerDetailsFetched] = useState(false);
   
   useEffect(() => {
     // Extract the path segments
@@ -40,19 +42,21 @@ function ResellerContent() {
     }
     
     // Fetch all resellers when the component mounts or when user changes
-    if (user && user.is_reseller_admin) {
+    if (user && user.is_reseller_admin && !resellersFetched) {
       dispatch(fetchResellers());
+      setResellersFetched(true);
     }
-  }, [router.pathname, user, dispatch]);
+  }, [router.pathname, user, dispatch, resellersFetched]);
   
   // If no reseller is selected yet, find the appropriate reseller for this admin
   useEffect(() => {
-    if (user?.is_reseller_admin && resellers && resellers.length > 0) {
+    if (user?.is_reseller_admin && resellers && resellers.length > 0 && !resellerDetailsFetched && !currentReseller) {
       // Find the reseller that this admin belongs to
       // First check if there's a direct reseller_id in the user object
       if (user.reseller_id) {
         console.log("Found reseller_id in user object:", user.reseller_id);
         dispatch(fetchResellerDetails(user.reseller_id));
+        setResellerDetailsFetched(true);
       } else {
         // If not, look through resellers to find one where this user is an admin
         const userEmail = user.email;
@@ -64,16 +68,18 @@ function ResellerContent() {
         if (userReseller) {
           console.log("Found matching reseller for admin:", userReseller.reseller_id);
           dispatch(fetchResellerDetails(userReseller.reseller_id));
+          setResellerDetailsFetched(true);
         } else if (resellers.length === 1) {
           // If there's only one reseller, select it
           console.log("Only one reseller found, selecting it:", resellers[0].reseller_id);
           dispatch(fetchResellerDetails(resellers[0].reseller_id));
+          setResellerDetailsFetched(true);
         } else {
           console.log("Multiple resellers found, but none match this admin");
         }
       }
     }
-  }, [user, resellers, dispatch]);
+  }, [user, resellers, dispatch, resellerDetailsFetched, currentReseller]);
   
   // Loading state
   if (authLoading) {
@@ -84,6 +90,9 @@ function ResellerContent() {
       </div>
     );
   }
+  
+  // TODO: Future improvement - Use the useFetchOnce hook from /src/hooks/useFetchOnce.js
+  // to better manage API calls and prevent excessive requests
   
   // Make sure we have reseller data
   if (!user?.is_reseller_admin) {

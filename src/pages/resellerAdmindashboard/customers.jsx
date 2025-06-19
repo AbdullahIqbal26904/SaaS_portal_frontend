@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import ResellerDashboard from '@/components/resellerAdminDashboard/ResellerDashboard';
@@ -8,8 +8,8 @@ function CustomersPage() {
   const router = useRouter();
 
   // Protect this page for reseller admins only
-  React.useEffect(() => {
-    if (user && !user.is_reseller_admin && !loading) {
+  useEffect(() => {
+    if (!loading && user && !user.is_reseller_admin) {
       router.push('/home-page');
     }
   }, [user, router, loading]);

@@ -19,13 +19,14 @@ function ResellerCustomers() {
   
   // Load customers when component mounts or reseller changes
   useEffect(() => {
-    if (currentReseller && currentReseller.reseller_id && !dataFetched) {
-      // Only fetch if we have a valid reseller ID
+    if (currentReseller && currentReseller.reseller_id && !dataFetched && 
+        (!resellerCustomers[currentReseller.reseller_id] || resellerCustomers[currentReseller.reseller_id].length === 0)) {
+      // Only fetch if we have a valid reseller ID and data hasn't been fetched yet
       console.log("Fetching customers for reseller:", currentReseller.reseller_id);
       dispatch(fetchResellerCustomers(currentReseller.reseller_id));
       setDataFetched(true);
     }
-  }, [currentReseller, dispatch, dataFetched]);
+  }, [currentReseller, dispatch, dataFetched, resellerCustomers]);
   
   // Reset form after successful customer creation
   useEffect(() => {
@@ -33,12 +34,12 @@ function ResellerCustomers() {
       setShowAddModal(false);
       setNewCustomer({ name: '', description: '' });
       
-      // Refresh the customer list after adding a new one
+      // Refresh the customer list after adding a new one, but only if not already fetched
       if (currentReseller && currentReseller.reseller_id) {
-        dispatch(fetchResellerCustomers(currentReseller.reseller_id));
+        setDataFetched(false); // This will trigger a refetch in the other useEffect
       }
     }
-  }, [success, currentReseller, dispatch, showAddModal]);
+  }, [success, showAddModal, currentReseller]);
   
   // Handle create new customer
   const handleCreateCustomer = (e) => {
