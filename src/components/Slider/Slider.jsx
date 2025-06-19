@@ -256,17 +256,7 @@ function Slider() {
           <p className="mt-6 text-gray-600 text-sm">Or register via:</p>
 
           {/* Social Media Icons */}
-          <div className="flex space-x-4 mt-3">
-            <div className="rounded-full flex items-center justify-center bg-gray-200 cursor-pointer hover:bg-gray-300">
-              <SocialIcon url="https://facebook.com" />
-            </div>
-            <div className="rounded-full flex items-center justify-center bg-gray-200  cursor-pointer hover:bg-gray-300">
-              <SocialIcon url="https://github.com" />
-            </div>
-            <div className=" rounded-full flex items-center justify-center bg-gray-200 cursor-pointer hover:bg-gray-300">
-              <SocialIcon url="https://www.google.com" />
-            </div>
-          </div>
+          
         </form>
       </div>
     );
@@ -365,7 +355,7 @@ function Slider() {
           <p className="mt-6 text-gray-600 text-sm">Or login via:</p>
 
           {/* Social Media Icons */}
-          <div className="flex space-x-4 mt-3">
+          {/* <div className="flex space-x-4 mt-3">
             <div className="rounded-full flex items-center justify-center bg-gray-200 cursor-pointer hover:bg-gray-300">
               <SocialIcon url="https://facebook.com" />
             </div>
@@ -375,7 +365,7 @@ function Slider() {
             <div className=" rounded-full flex items-center justify-center bg-gray-200 cursor-pointer hover:bg-gray-300">
               <SocialIcon url="https://www.google.com" />
             </div>
-          </div>
+          </div> */}
         </form>
       </div>
     );
