@@ -30,8 +30,21 @@ function ResponsiveNavbar() {
       return;
     }
     if(item.name === "Sign Up" || item.name === "Sign In") {
-      dispatch(setopenSlider(true));
-      dispatch(setsliderData(item.name));
+      // Check if already on home page
+      if (router.pathname !== "/") {
+        // Set up data for which slider to open after redirect
+        dispatch(setsliderData(item.name));
+        
+        // Redirect to home page with a query parameter indicating to open slider
+        router.push({
+          pathname: '/',
+          query: { openSlider: 'true', sliderType: item.name }
+        });
+      } else {
+        // If already on home page, just open the slider
+        dispatch(setopenSlider(true));
+        dispatch(setsliderData(item.name));
+      }
       return;
     }
     dispatch(setopenSlider(true));

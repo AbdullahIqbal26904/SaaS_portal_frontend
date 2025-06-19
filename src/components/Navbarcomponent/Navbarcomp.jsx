@@ -30,7 +30,6 @@ function Navbarcomp() {
     ];
     function handleClick(e, item) {
         e.preventDefault();
-        // console.log(loading,openSlider);
         if(item.name === "Home"){
             router.push('/');
             return;
@@ -48,17 +47,25 @@ function Navbarcomp() {
             return;
         }
         if(item.name === "Sign Up" || item.name === "Sign In"){
-            dispatch(setopenSlider(true));
-            dispatch(setsliderData(item.name));
+            // Check if already on home page
+            if (router.pathname !== "/" && router.pathname !== "/home-page") {
+                // Set up data for which slider to open after redirect
+                dispatch(setsliderData(item.name));
+                
+                // Redirect to home page with a query parameter indicating to open slider
+                router.push({
+                    pathname: '/',
+                    query: { openSlider: 'true', sliderType: item.name }
+                });
+            } else {
+                // If already on home page, just open the slider
+                dispatch(setopenSlider(true));
+                dispatch(setsliderData(item.name));
+            }
             return;
-        }
-        if((sliderData != "My URLs" || sliderData != "Sign Up" || sliderData != "Sign In") && (item.name === "My URLs" || item.name === "Sign Up" || item.name === "Sign In") ){
-            router.push('/home-page');
         }
         dispatch(setopenSlider(true));
         dispatch(setsliderData(item.name));
-        // console.log('The link was clicked.', item);
-        // console.log('The link was clicked 2.', sliderData);
     }
     return (
         <div className="absolute right-12 top-4 w-[35.5rem] h-[3rem] bg-[#087da8] rounded-lg text-white flex items-center justify-center gap-1">

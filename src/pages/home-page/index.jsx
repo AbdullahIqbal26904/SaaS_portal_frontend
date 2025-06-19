@@ -1,11 +1,17 @@
 import { useEffect } from "react";
 import Homecomponent from "@/components/Hero/Homecomponent";
 import Navbar from "../../components/Navbarcomponent/Navbar";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Slider from "@/components/Slider/Slider";
 import Footer from "@/components/footer/Footer";
+import { useRouter } from "next/router";
+import { setopenSlider, setsliderData } from "@/redux/slices/urlslice";
+
 const Home = () => {
   const { loading, openSlider } = useSelector((state) => state.ui);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { openSlider: shouldOpenSlider, sliderType } = router.query;
 
   useEffect(() => {
     if (openSlider) {
@@ -14,6 +20,20 @@ const Home = () => {
       document.body.classList.remove("overflow-hidden"); // Enable scrolling
     }
   }, [openSlider]);
+
+  // Handle opening slider based on URL query parameters
+  useEffect(() => {
+    if (shouldOpenSlider === 'true' && sliderType) {
+      // Set the slider type (Sign In or Sign Up)
+      dispatch(setsliderData(sliderType));
+      
+      // Open the slider
+      dispatch(setopenSlider(true));
+      
+      // Clean up the URL to remove the query parameters
+      router.replace('/home-page', undefined, { shallow: true });
+    }
+  }, [shouldOpenSlider, sliderType, dispatch, router]);
 
   return (
     <div className="relative">
