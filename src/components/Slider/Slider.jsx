@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setopenSlider, setshowloader, setsliderData } from "@/redux/slices/urlslice";
 import { loginUser, registerUser, clearError } from "@/redux/slices/authSlice";
-// Import individual icons instead of using react-social-icons package
-// which bundles its own version of React
 import { useRouter } from "next/router";
 
 function Slider() {
@@ -355,17 +353,7 @@ function Slider() {
           <p className="mt-6 text-gray-600 text-sm">Or login via:</p>
 
           {/* Social Media Icons */}
-          {/* <div className="flex space-x-4 mt-3">
-            <div className="rounded-full flex items-center justify-center bg-gray-200 cursor-pointer hover:bg-gray-300">
-              <SocialIcon url="https://facebook.com" />
-            </div>
-            <div className="rounded-full flex items-center justify-center bg-gray-200  cursor-pointer hover:bg-gray-300">
-              <SocialIcon url="https://github.com" />
-            </div>
-            <div className=" rounded-full flex items-center justify-center bg-gray-200 cursor-pointer hover:bg-gray-300">
-              <SocialIcon url="https://www.google.com" />
-            </div>
-          </div> */}
+          {/* Social media login options can be added here in the future */}
         </form>
       </div>
     );
