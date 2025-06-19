@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { setopenSlider,setshowloader,setsliderData } from "@/redux/slices/urlslice";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 function ResponsiveNavbar() {
   const [openMenu, setOpenMenu] = useState(false);
   const dispatch = useDispatch();
+  const router = useRouter();
   const buttons = [
     { name: "My URLs", link: "/" },
     { name: "Plans", link: "/" },
@@ -16,15 +18,15 @@ function ResponsiveNavbar() {
 
   function openSidebar(item){
     if(item.name === "My URLs") {
-      window.location.href = '/Myurls';
+      router.push('/Myurls');
       return;
     }
     if(item.name === "Plans") {
-      window.location.href = '/plans';
+      router.push('/plans');
       return;
     }
     if(item.name === "Asterisk IVR") {
-      window.location.href = '/asterik';
+      router.push('/asterik');
       return;
     }
     if(item.name === "Sign Up" || item.name === "Sign In") {

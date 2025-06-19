@@ -64,9 +64,15 @@ apiClient.interceptors.response.use(
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         
-        // Use router for navigation if possible to prevent hard refresh
-        // Otherwise fallback to window.location
-        window.location.href = '/';
+        // We can't use Next.js router directly here because it's not in a component context
+        // Instead, we'll use a soft navigation approach that works without reloading the page
+        if (isBrowser) {
+          // Use Next.js's router events to navigate
+          import('next/router').then(module => {
+            const Router = module.default;
+            Router.push('/');
+          });
+        }
         return Promise.reject(err);
       }
     }
